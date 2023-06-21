@@ -126,6 +126,11 @@ func loadBaseConfig(ctx *cli.Context) kaigoConfig {
 		}
 	}
 
+	// Copy duplicate configs
+	cfg.Node.Genesis = cfg.Kai.Genesis
+	cfg.Node.FastSync = cfg.Kai.FastSync
+	cfg.Node.GasOracle = cfg.Kai.GasOracle
+
 	// Apply flags.
 	utils.SetNodeConfig(ctx, &cfg.Node)
 	return cfg
@@ -150,11 +155,6 @@ func makeConfigNode(ctx *cli.Context) (*node.Node, kaigoConfig) {
 		cfg.Node.P2P.RootDir = cfg.Node.DataDir
 		cfg.Kai.Consensus.RootDir = cfg.Node.DataDir
 	}
-
-	// Copy duplicate configs
-	cfg.Node.Genesis = cfg.Kai.Genesis
-	cfg.Node.FastSync = cfg.Kai.FastSync
-	cfg.Node.GasOracle = cfg.Kai.GasOracle
 
 	applyMetricConfig(ctx, &cfg)
 
